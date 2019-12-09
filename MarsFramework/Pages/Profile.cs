@@ -38,7 +38,27 @@ namespace MarsFramework.Pages
         IWebElement updateBtn => _driver.FindElement(By.XPath("//input[@value='Update']"));
         #endregion
 
+        #region EducationWebElements
 
+        IWebElement eduTab => _driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[1]/a[3]"));
+        //click on add new
+        IWebElement addEdu => _driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/thead/tr/th[6]/div"));
+
+        IWebElement editEdu => _driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/tbody[5]/tr/td[6]/span[1]/i"));
+
+        IWebElement deleteEdu => _driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/tbody[5]/tr/td[6]/span[2]/i"));
+
+        IWebElement dropDownListuni => _driver.FindElement(By.XPath("//input[@name='instituteName']"));
+
+        IWebElement bachelor => _driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/div/div[2]/div[2]/input"));
+
+        IWebElement dropDowntitle3 => _driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/div/div[2]/div[3]/select"));
+
+        IWebElement dropDownListBox => _driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/div/div[1]/div[2]/select"));
+
+        IWebElement dropDowntitle => _driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/div/div[2]/div[1]/select"));
+
+        #endregion
 
         #region CertificationWebElements
         //clicking on profile tab
@@ -286,15 +306,165 @@ namespace MarsFramework.Pages
         #region EducationMethods
         internal void AddEducation()
         {
+            GlobalDefinitions.Wait(3000);
+            //clicking on profile tab
+            //Driver.driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[1]/div/a[2]")).Click();
+            //clicking on Education Tab 
+            eduTab.Click();
+            //click on add new
+            addEdu.Click();
+            GlobalDefinitions.Wait(1000);
+            dropDownListuni.SendKeys("JNTU");
+            //Console.WriteLine(dropDownListuni.Text);
+
+            GlobalDefinitions.Wait(1000);
+            SelectElement clickThis = new SelectElement(dropDownListBox);
+            clickThis.SelectByText("Brazil");
+            //Console.WriteLine(dropDownListBox.Text);
+
+            GlobalDefinitions.Wait(1000);
+            SelectElement click = new SelectElement(dropDowntitle);
+            click.SelectByText("B.A");
+            //Console.WriteLine(dropDowntitle.Text);
+
+            GlobalDefinitions.Wait(1000);
+            bachelor.SendKeys("Bachelor Degree");
+            //Console.WriteLine(bachelor.Text);
+
+            GlobalDefinitions.Wait(1000);
+            SelectElement click2 = new SelectElement(dropDowntitle3);
+            click2.SelectByText("2016");
+            //Console.WriteLine(dropDowntitle3.Text);
+            //clicking add 
+            _driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/div/div[3]/div/input[1]")).Click();
+
+            //Start the Reports
+            //  CommonMethods.ExtentReports();
+            GlobalDefinitions.Wait(1000);
+            // CommonMethods.test = CommonMethods.extent.StartTest("Add a Education Details");
+            int count;
+            GlobalDefinitions.Wait(1000);
+            {
+                count = 1;
+                count++;
+                int i;
+                for (i = 1; i <= count++; i++)
+                {
+                    //string ActualValue = Driver.driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/tbody[" + i + "]/tr/td[1]")).Text;
+                    IWebElement ActualValue = _driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/tbody[" + i + "]/tr/td[1]"));
+                    GlobalDefinitions.Wait(1000);
+                    Console.WriteLine(ActualValue.Text);
+                    //string ExpectedValue = "Spanish";
+                    if (ActualValue.Text == "Brazil")
+
+                    {
+                        //   CommonMethods.test.Log(LogStatus.Pass, "Test Passed, added Successfully");
+                        GlobalDefinitions.SaveScreenShotClass.SaveScreenshot(_driver, "added");
+                        Console.WriteLine("Passed");
+                        return;
+                    }
+
+                    else
+
+                        Console.WriteLine("Failed");
+                }
+
+            }
 
         }
         internal void EditEducation()
         {
+            GlobalDefinitions.Wait(3000);
+            //clicking on Education Tab 
+            eduTab.Click();
+            //click on modify button
+            editEdu.Click();
+
+            IWebElement modify2 = _driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/tbody[5]/tr/td/div[1]/div[2]/select"));
+            //modify2.Clear();
+            SelectElement clickThis2 = new SelectElement(modify2);
+            clickThis2.SelectByText("India");
+
+            _driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/tbody[5]/tr/td/div[3]/input[1]")).Click();
+
+            //Start the Reports
+            //CommonMethods.ExtentReports();
+            GlobalDefinitions.Wait(1000);
+            // CommonMethods.test = CommonMethods.extent.StartTest("modify a education Details");
+
+            int count;
+            GlobalDefinitions.Wait(1000);
+
+            count = 1;
+            count++;
+            int i;
+            for (i = 1; i <= count++; i++)
+            {
+                //string ActualValue = Driver.driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/tbody[" + i + "]/tr/td[1]")).Text;
+                IWebElement ActualValue = _driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/tbody[" + i + "]/tr/td[1]"));
+                GlobalDefinitions.Wait(1000);
+                Console.WriteLine(ActualValue.Text);
+                //string ExpectedValue = "sitar";
+                if (ActualValue.Text == "India")
+
+                {
+                    //  CommonMethods.test.Log(LogStatus.Pass, "Test Passed, modified Successfully");
+                    GlobalDefinitions.SaveScreenShotClass.SaveScreenshot(_driver, "modified");
+                    Console.WriteLine("Success");
+                    return;
+                }
+
+
+                else
+
+                    Console.WriteLine("Failed");
+
+            }
 
         }
         internal void DeleteEducation()
         {
+            GlobalDefinitions.Wait(3000);
 
+            eduTab.Click();
+
+            deleteEdu.Click();
+            // CommonMethods.ExtentReports();
+            Thread.Sleep(1000);
+            // CommonMethods.test = CommonMethods.extent.StartTest("delete a education Details");
+
+            int count;
+            GlobalDefinitions.Wait(1000);
+
+            count = 1;
+            // count++;
+            int i;
+            for (i = 1; i <= count++; i++)
+            {
+                //string ActualValue = Driver.driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/tbody[" + i + "]/tr/td[1]")).Text;
+                IWebElement ActualValue = _driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/tbody[" + i + "]/tr/td[1]"));
+                GlobalDefinitions.Wait(1000);
+                Console.WriteLine(ActualValue.Text);
+                //string ExpectedValue = "Spanish";
+                if (ActualValue.Text == "India")
+
+                {
+
+                    //CommonMethods.test.Log(LogStatus.Fail, "Test Failed, not deleted Successfully");
+                    GlobalDefinitions.SaveScreenShotClass.SaveScreenshot(_driver, "notdeleted");
+                    Console.WriteLine("Fail");
+                    Assert.Fail("failed");
+                    // return;
+                }
+
+
+                else
+                    //   CommonMethods.test.Log(LogStatus.Pass, "Test Passed");
+                    GlobalDefinitions.SaveScreenShotClass.SaveScreenshot(_driver, "deleted");
+                // Console.WriteLine("Success");
+
+
+            }
         }
         #endregion
 

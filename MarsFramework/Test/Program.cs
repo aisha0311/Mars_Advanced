@@ -178,6 +178,57 @@ namespace MarsFramework
             }
         }
 
+        [Category("Sprint1")]
+        [Test]
+        public void EducationCreate()
+        {
+            try
+            {
+                Profile addEdu = new Profile(GlobalDefinitions.driver);
+                addEdu.AddEducation();
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [Category("Sprint1")]
+        [Test]
+        public void EducationEdit()
+        {
+            try
+            {
+                Profile editEdu = new Profile(GlobalDefinitions.driver);
+                editEdu.EditEducation();
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [Category("Sprint1")]
+        [Test]
+        public void RemoveEducation()
+        {
+            try
+            {
+                Profile removeEdu = new Profile(GlobalDefinitions.driver);
+                removeEdu.DeleteEducation();
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
     }
 
     
