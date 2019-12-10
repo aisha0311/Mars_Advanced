@@ -228,6 +228,58 @@ namespace MarsFramework
                 throw;
             }
         }
+        
+        
+        [Category("Sprint1")]
+        [Test]
+        public void LanguageCreate()
+        {
+            try
+            {
+                Profile addLang = new Profile(GlobalDefinitions.driver);
+                addLang.AddLanguage();
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [Category("Sprint1")]
+        [Test]
+        public void LanguageEdit()
+        {
+            try
+            {
+                Profile editLang = new Profile(GlobalDefinitions.driver);
+                editLang.EditLanguage();
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [Category("Sprint1")]
+        [Test]
+        public void RemoveLanguage()
+        {
+            try
+            {
+                Profile removeLang= new Profile(GlobalDefinitions.driver);
+                removeLang.DeleteLanguage();
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
 
     }
 
