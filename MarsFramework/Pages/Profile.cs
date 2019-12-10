@@ -79,7 +79,27 @@ namespace MarsFramework.Pages
         #endregion
 
         #region LanguageWebElements
+   // Click on Profile tab
+        IWebElement profTab => _driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[1]/div/a[2]"));
+        //Click on Add New button
+        IWebElement profAddNew => _driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[2]/div/div[2]/div/table/thead/tr/th[3]/div"));
 
+        //Add Language
+        IWebElement addLang => _driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[2]/div/div[2]/div/div/div[1]/input"));
+
+        //Click on Language Level
+        IWebElement langLevel => _driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[2]/div/div[2]/div/div/div[2]/select"));
+
+        IWebElement addBtn => _driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[2]/div/div[2]/div/div/div[3]/input[1]"));
+
+        IWebElement editLang => _driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[2]/div/div[2]/div/table/tbody[2]/tr/td[3]/span[1]/i"));
+
+        IWebElement languageModify => _driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[2]/div/div[2]/div/table/tbody[2]/tr/td/div/div[1]/input"));
+
+        IWebElement levelModify => _driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[2]/div/div[2]/div/table/tbody[2]/tr/td/div/div[2]/select"));
+
+        private IWebElement updateLink => _driver.FindElement(By.XPath("//input[@value='Update']"));
+            
         #endregion
 
         #region SkillMethods
@@ -472,15 +492,145 @@ namespace MarsFramework.Pages
 
         internal void AddLanguage()
         {
+GlobalDefinitions.Wait(1500);
+            // Click on Profile tab
+            profTab.Click();
+            //Click on Add New button
+            profAddNew.Click();
+            //Add Language
+            addLang.SendKeys("Spanish");
+            //Click on Language Level
+            langLevel.Click();
 
+            //Choose the language level
+            IWebElement Lang = _driver.FindElements(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[2]/div/div[2]/div/div/div[2]/select/option"))[1];
+            Lang.Click();
+
+            //Click on Add button
+            addBtn.Click();
+            int count;
+            count = 1;
+            count++;
+            int i;
+            for (i = 1; i <= count++; i++)
+            {
+
+                //string ActualValue = Driver.driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/tbody[" + i + "]/tr/td[1]")).Text;
+                IWebElement ActualValue = _driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[2]/div/div[2]/div/table/tbody[" + i + "]/tr/td[1]"));
+                Thread.Sleep(1000);
+                //string actualvalue = "ActualValue.Text";
+                //Console.WriteLine(ActualValue.Text);
+                //string ExpectedValue = "Spanish";
+                if (ActualValue.Text == "Spanish")
+                //Assert.AreEqual(actualvalue, "Spanish");
+                {
+                    // CommonMethods.test.Log(LogStatus.Pass, "Test Passed, added Successfully");
+                    GlobalDefinitions.SaveScreenShotClass.SaveScreenshot(_driver, "added");
+                    Console.WriteLine("Passed");
+                    return;
+                }
+
+                else
+
+                    Console.WriteLine("Failed");
+
+
+            }
         }
         internal void EditLanguage()
         {
+ //click on profile tab
+            profTab.Click();
+            //click on Language tab
+            _driver.FindElement(By.XPath("//a[@class='item active']")).Click();
+            //click on modify symbol
+            editLang.Click();
 
+            //clear value in langauge field and enter new language
+            languageModify.Click();
+            languageModify.Clear();
+            languageModify.SendKeys("Telugu");
+            //clear level and give new level
+            SelectElement selectlevel = new SelectElement(levelModify);
+            selectlevel.SelectByText("Fluent");
+
+            updateLink.Click();
+
+            //Start the Reports
+            //  CommonMethods.ExtentReports();
+            //Thread.Sleep(1000);
+            //  CommonMethods.test = CommonMethods.extent.StartTest("modify a language Details");
+
+            int count;
+            count = 1;
+            count++;
+            int i;
+            for (i = 1; i <= count++; i++)
+            {
+                //string ActualValue = Driver.driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/tbody[" + i + "]/tr/td[1]")).Text;
+                IWebElement ActualValue = _driver.FindElement(By.XPath(
+                    "//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[2]/div/div[2]/div/table/tbody[" +
+                    i + "]/tr/td[1]"));
+                // Thread.Sleep(1000);
+                Console.WriteLine(ActualValue.Text);
+                //string ExpectedValue = "Spanish";
+                if (ActualValue.Text == "Telugu")
+                {
+                    //  CommonMethods.test.Log(LogStatus.Pass, "Test Passed, modified Successfully");
+                    GlobalDefinitions.SaveScreenShotClass.SaveScreenshot(_driver, "modified");
+                    Console.WriteLine("Success");
+                    return;
+                }
+
+                else
+
+                    Console.WriteLine("Failed");
+
+            }
         }
         internal void DeleteLanguage()
         {
+ //click on profile tab
+            profTab.Click();
+            //click on Language tab
+           _driver.FindElement(By.XPath("//a[@class='item active']")).Click();
 
+            _driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[2]/div/div[2]/div/table/tbody[2]/tr/td[3]/span[2]/i")).Click();
+
+            //Start the Reports
+           // CommonMethods.ExtentReports();
+           GlobalDefinitions.Wait(1000);
+           // CommonMethods.test = CommonMethods.extent.StartTest("delete a language Details");
+            int count;
+           // GlobalDefinitions.Wait(1000);
+           
+                count = 1;
+                // count++;
+                int i;
+                for (i = 1; i <= count++; i++)
+                {
+                    //string ActualValue = Driver.driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/tbody[" + i + "]/tr/td[1]")).Text;
+                    IWebElement ActualValue = _driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[2]/div/div[2]/div/table/tbody[" + i + "]/tr/td[1]"));
+                   GlobalDefinitions.Wait(1000);
+                    Console.WriteLine(ActualValue.Text);
+                    //string ExpectedValue = "Spanish";
+                    if (ActualValue.Text == "Telugu")
+                    {
+                        //CommonMethods.test.Log(LogStatus.Fail, "Test Failed, not deleted Successfully");
+                      GlobalDefinitions.SaveScreenShotClass.SaveScreenshot(_driver, "notdeleted");
+                        Console.WriteLine("Fail");
+                        Assert.Fail("failed");
+                        // return;
+                    }
+
+
+                    else
+                      //  CommonMethods.test.Log(LogStatus.Pass, "Test Passed");
+
+                 GlobalDefinitions.SaveScreenShotClass.SaveScreenshot(_driver, "deleted");
+                    // Console.WriteLine("Success");
+
+                }
         }
         #endregion
 
