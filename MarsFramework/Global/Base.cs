@@ -6,6 +6,7 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using RelevantCodes.ExtentReports;
 using System;
+using System.IO;
 using static MarsFramework.Global.GlobalDefinitions;
 
 namespace MarsFramework.Global
@@ -17,9 +18,9 @@ namespace MarsFramework.Global
         #region To access Path from resource file
 
         public static int Browser = Int32.Parse(MarsResource.Browser);
-        public static String ExcelPath = MarsResource.ExcelPath;
-        public static string ScreenshotPath = MarsResource.ScreenShotPath;
-        public static string ReportPath = MarsResource.ReportPath;
+        public static String ExcelPath = Directory.GetCurrentDirectory() + MarsResource.ExcelPath;
+        public static string ScreenshotPath = Directory.GetCurrentDirectory() + MarsResource.ScreenShotPath;
+        public static string ReportPath = Directory.GetCurrentDirectory() + MarsResource.ReportPath;
         #endregion
 
         #region reports
@@ -49,7 +50,7 @@ namespace MarsFramework.Global
             #region Initialise Reports
 
             extent = new ExtentReports(ReportPath, false, DisplayOrder.NewestFirst);
-            extent.LoadConfig(MarsResource.ReportXMLPath);
+            extent.LoadConfig(Directory.GetCurrentDirectory() + MarsResource.ReportXMLPath);
 
             #endregion
 

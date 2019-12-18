@@ -44,7 +44,7 @@ namespace MarsFramework.Pages
         //click on add new
         IWebElement addEdu => _driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/thead/tr/th[6]/div"));
 
-        IWebElement editEdu => _driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/tbody[5]/tr/td[6]/span[1]/i"));
+        IWebElement editEdu => _driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/tbody[1]/tr/td[6]/span[1]/i"));
 
         IWebElement deleteEdu => _driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/tbody[5]/tr/td[6]/span[2]/i"));
 
@@ -326,6 +326,9 @@ namespace MarsFramework.Pages
         #region EducationMethods
         internal void AddEducation()
         {
+            GlobalDefinitions.ExcelLib.PopulateInCollection(Base.ExcelPath, "Education");
+
+
             GlobalDefinitions.Wait(3000);
             //clicking on profile tab
             //Driver.driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[1]/div/a[2]")).Click();
@@ -334,7 +337,7 @@ namespace MarsFramework.Pages
             //click on add new
             addEdu.Click();
             GlobalDefinitions.Wait(1000);
-            dropDownListuni.SendKeys("JNTU");
+            dropDownListuni.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "dropDownListuni"));
             //Console.WriteLine(dropDownListuni.Text);
 
             GlobalDefinitions.Wait(1000);
@@ -348,7 +351,7 @@ namespace MarsFramework.Pages
             //Console.WriteLine(dropDowntitle.Text);
 
             GlobalDefinitions.Wait(1000);
-            bachelor.SendKeys("Bachelor Degree");
+            bachelor.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "bachelor"));
             //Console.WriteLine(bachelor.Text);
 
             GlobalDefinitions.Wait(1000);
@@ -394,19 +397,25 @@ namespace MarsFramework.Pages
         }
         internal void EditEducation()
         {
-            GlobalDefinitions.Wait(3000);
+            GlobalDefinitions.ExcelLib.PopulateInCollection(Base.ExcelPath, "Education");
+            GlobalDefinitions.Wait(2000);
             //clicking on Education Tab 
             eduTab.Click();
+            GlobalDefinitions.Wait(2000);
             //click on modify button
             editEdu.Click();
+            //*[@id="account-profile-section"]/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/tbody[1]/tr/td[6]/span[1]/i
+            //*[@id="account-profile-section"]/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/tbody[2]/tr/td[6]/span[1]/i
 
-            IWebElement modify2 = _driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/tbody[5]/tr/td/div[1]/div[2]/select"));
+            IWebElement modify2 = _driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/tbody[1]/tr/td/div[1]/div[2]/select"));
+       
             //modify2.Clear();
+            //*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/tbody[5]/tr/td/div[1]/div[2]/select
             SelectElement clickThis2 = new SelectElement(modify2);
             clickThis2.SelectByText("India");
 
-            _driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/tbody[5]/tr/td/div[3]/input[1]")).Click();
-
+            //   _driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/tbody[5]/tr/td/div[3]/input[1]")).Click();
+            _driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/tbody[1]/tr/td/div[3]/input[1]")).Click();
             //Start the Reports
             //CommonMethods.ExtentReports();
             GlobalDefinitions.Wait(1000);
@@ -431,7 +440,7 @@ namespace MarsFramework.Pages
                     //  CommonMethods.test.Log(LogStatus.Pass, "Test Passed, modified Successfully");
                     GlobalDefinitions.SaveScreenShotClass.SaveScreenshot(_driver, "modified");
                     Console.WriteLine("Success");
-                    return;
+                    break;
                 }
 
 
@@ -444,22 +453,18 @@ namespace MarsFramework.Pages
         }
         internal void DeleteEducation()
         {
-            GlobalDefinitions.Wait(3000);
+
+            GlobalDefinitions.Wait(2000);
 
             eduTab.Click();
 
-            deleteEdu.Click();
-            // CommonMethods.ExtentReports();
-            Thread.Sleep(1000);
-            // CommonMethods.test = CommonMethods.extent.StartTest("delete a education Details");
-
-            int count;
+          
             GlobalDefinitions.Wait(1000);
+            var table = _driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table")); 
 
-            count = 1;
-            // count++;
-            int i;
-            for (i = 1; i <= count++; i++)
+            var eduList = table.FindElements(By.TagName("tbody")).ToList();
+            
+            for (int i = 1; i <= eduList.Count; i++)
             {
                 //string ActualValue = Driver.driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/tbody[" + i + "]/tr/td[1]")).Text;
                 IWebElement ActualValue = _driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/tbody[" + i + "]/tr/td[1]"));
@@ -469,22 +474,17 @@ namespace MarsFramework.Pages
                 if (ActualValue.Text == "India")
 
                 {
-
-                    //CommonMethods.test.Log(LogStatus.Fail, "Test Failed, not deleted Successfully");
-                    GlobalDefinitions.SaveScreenShotClass.SaveScreenshot(_driver, "notdeleted");
-                    Console.WriteLine("Fail");
-                    Assert.Fail("failed");
-                    // return;
-                }
-
-
-                else
+                    _driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/tbody[" + i + "]/tr/td[6]/span[2]")).Click();
                     //   CommonMethods.test.Log(LogStatus.Pass, "Test Passed");
                     GlobalDefinitions.SaveScreenShotClass.SaveScreenshot(_driver, "deleted");
-                // Console.WriteLine("Success");
+                    // Console.WriteLine("Success");
+                    break;
+                   // return;
+                }
 
-
+                
             }
+
         }
         #endregion
 
@@ -492,13 +492,14 @@ namespace MarsFramework.Pages
 
         internal void AddLanguage()
         {
-GlobalDefinitions.Wait(1500);
+            GlobalDefinitions.ExcelLib.PopulateInCollection(Base.ExcelPath, "Language");
+            GlobalDefinitions.Wait(1500);
             // Click on Profile tab
             profTab.Click();
             //Click on Add New button
             profAddNew.Click();
             //Add Language
-            addLang.SendKeys("Spanish");
+            addLang.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "addLang"));
             //Click on Language Level
             langLevel.Click();
 
@@ -539,7 +540,8 @@ GlobalDefinitions.Wait(1500);
         }
         internal void EditLanguage()
         {
- //click on profile tab
+            GlobalDefinitions.ExcelLib.PopulateInCollection(Base.ExcelPath, "Language");
+            //click on profile tab
             profTab.Click();
             //click on Language tab
             _driver.FindElement(By.XPath("//a[@class='item active']")).Click();
@@ -549,7 +551,7 @@ GlobalDefinitions.Wait(1500);
             //clear value in langauge field and enter new language
             languageModify.Click();
             languageModify.Clear();
-            languageModify.SendKeys("Telugu");
+            languageModify.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "languageModify"));
             //clear level and give new level
             SelectElement selectlevel = new SelectElement(levelModify);
             selectlevel.SelectByText("Fluent");
@@ -638,6 +640,7 @@ GlobalDefinitions.Wait(1500);
 
         internal void AddCertification()
         {
+            GlobalDefinitions.ExcelLib.PopulateInCollection(Base.ExcelPath, "Certificate");
             int count;
             //clicking on profile tab
             profileTab.Click();
@@ -646,9 +649,9 @@ GlobalDefinitions.Wait(1500);
             //click on add new
             addNew.Click();
             // add certificate or award
-            cert.SendKeys("ISTQB");
+            cert.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "cert")); 
             // add certified from
-            certFrom.SendKeys("ANZTB");
+            certFrom.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "certFrom"));
             // add or select year
             IWebElement addCerification = _driver.FindElement(By.XPath("//select[@name='certificationYear']"));
             SelectElement addcerificationyear = new SelectElement(addCerification);
@@ -691,6 +694,7 @@ GlobalDefinitions.Wait(1500);
         }
         internal void EditCertification()
         {
+            GlobalDefinitions.ExcelLib.PopulateInCollection(Base.ExcelPath, "Certificate");
             certTab.Click();
             //click on modify button
             _driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[5]/div[1]/div[2]/div/table/tbody[3]/tr/td[4]/span[1]/i")).Click();
@@ -698,7 +702,7 @@ GlobalDefinitions.Wait(1500);
             //clear and enter new data
             IWebElement certificationmodify = _driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[5]/div[1]/div[2]/div/table/tbody[3]/tr/td/div/div/div[1]/input"));
             certificationmodify.Clear();
-            certificationmodify.SendKeys("QTP");
+            certificationmodify.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "certificationmodify"));
 
             _driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[5]/div[1]/div[2]/div/table/tbody[3]/tr/td/div/span/input[1]")).Click();
 
